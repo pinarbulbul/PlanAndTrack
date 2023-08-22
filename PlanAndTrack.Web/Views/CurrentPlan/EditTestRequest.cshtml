@@ -1,0 +1,86 @@
+﻿@model PlanAndTrack.Application.Models.Plan.UpdateTestVm
+
+@{
+    ViewData["Title"] = "İlerleme Girişi";
+}
+
+
+<div>
+    <hr />
+    <dl class="row">
+
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.ImportanceLevel)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.ImportanceLevel)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.TestType)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.TestType)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.PreRequestTestIdentifier)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.PreRequestTestIdentifier)
+        </dd>
+        <dt class="col-sm-3">
+
+        </dt>
+        <dd class="col-sm-9">
+            @if (Model.HasFile)
+            {
+                @Html.ActionLink("Ekli Test Dokümanını İndir", "DownloadFile", new { id = Model.Id }, new { @class = "btn btn-outline-secondary" })
+            }
+        </dd>
+    </dl>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-10">
+        <form method="post">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="PlanTestRequestId" />
+            <div class="row mb-7">
+                <label asp-for="TimeRequired" class="col-form-label col-sm-3"></label>
+                <div class="col-sm-5">
+                    @Html.DisplayFor(model=>model.TimeRequired)
+                </div>
+            </div>
+            <div class="row mb-7">
+                <label asp-for="LeftTimeRequired" class="col-form-label col-sm-3"></label>
+                <div class="col-sm-5">
+                    <input asp-for="LeftTimeRequired" class="form-control" />
+                    <span asp-validation-for="LeftTimeRequired" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <input type="submit" value="Güncelle" asp-action="EditTestRequest" class="btn btn-success" />
+                <partial name="_BackToCurrentPlanButton" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

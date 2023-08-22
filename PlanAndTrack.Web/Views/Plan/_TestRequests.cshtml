@@ -1,0 +1,64 @@
+﻿@model IEnumerable<PlanAndTrack.Application.Models.Plan.TestRequestsVm>
+
+
+<div class="row mb-3">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TestType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ImportanceLevel)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LeftTimeRequired)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreationDate)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink("Detay", "Detail", new { controller = "TestRequest", id = item.Id }, new { target = "_blank", @class = "btn btn-sm btn-dark" })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TestType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ImportanceLevel)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LeftTimeRequired)
+                    </td>
+                    <td>
+                        @Html.Partial("_CreatedByDisplay", @item.CreatedBy)
+                    </td>
+                    <td>
+                        @Html.Partial("_ToShortDateDisplay", @item.CreationDate)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

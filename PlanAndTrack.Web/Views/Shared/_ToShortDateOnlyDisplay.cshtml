@@ -1,0 +1,9 @@
+﻿@model DateOnly?
+
+
+@{
+    var dateString = Model?.ToShortDateString();
+}
+
+@Html.DisplayFor(model => dateString)
+                

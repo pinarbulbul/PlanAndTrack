@@ -1,0 +1,60 @@
+﻿@model PlanAndTrack.Application.Models.TestRequest.UpdateVm
+
+@{
+    ViewData["Title"] = "Sil";
+}
+
+<h1>Bu test talebini silmek istediğinize emin misiniz?</h1>
+
+
+<div>
+    <hr />
+    <dl class="row">
+
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.ImportanceLevel)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.ImportanceLevel)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.TestType)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.TestType)
+        </dd>
+        <dt class="col-sm-3">
+
+        </dt>
+        <dd class="col-sm-9">
+            @if (Model.HasFile)
+            {
+                @Html.ActionLink("Ekli Test Dokümanını İndir", "DownloadFile", new { id = Model.Id }, new { @class = "btn btn-outline-secondary" })
+            }
+        </dd>
+    </dl>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Delete" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div>
+                <input type="submit" value="Sil" class="btn btn-danger" />
+                <partial name="_BackToListButton" />
+            </div>
+        </form>
+    </div>
+</div>

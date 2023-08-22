@@ -1,0 +1,103 @@
+﻿@model IEnumerable<PlanAndTrack.Application.Models.TestRequest.TestRequestVm>
+
+@{
+    ViewData["Title"] = "Liste";
+}
+
+<h1>Test Talepleri</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Yeni Test Talebi Ekle</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImportanceLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TimeRequired)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasFile)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td style="min-width:150px">
+                    @if (item.CanEdit)
+                    {
+                        @Html.ActionLink("Güncelle", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-dark" })
+                    }
+                    @if (item.CanDelete)
+                    {
+                        @Html.ActionLink("Sil", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-danger ms-3" })
+                    }
+                    @if (item.CanApprove)
+                    {
+                        @Html.ActionLink("Onay/Red", "Approve", new { id = item.Id }, new { @class = "btn btn-sm btn-warning ms-3" })
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.Partial("_NameDisplay", @item.Name)
+                </td>
+                <td>
+                    @Html.Partial("_DescriptionDisplay", @item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImportanceLevel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TestType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeRequired)
+                </td>
+                <td>
+                    @Html.Partial("_CreatedByDisplay", @item.CreatedBy)
+                </td>
+                <td>
+                    @Html.Partial("_ToShortDateDisplay", @item.CreationDate)
+                </td>
+                <td>
+                    @if (item.HasFile)
+                    {
+                        @Html.ActionLink("Test Dokümanı " + item.Id, "DownloadFile", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
+                    }
+
+                </td>
+            </tr>
+        }
+     </tbody>
+</table>

@@ -1,0 +1,74 @@
+﻿@using PlanAndTrack.Domain.Enums
+@model PlanAndTrack.Application.Models.TestRequest.CreateVm
+
+@{
+    ViewData["Title"] = "Yeni";
+}
+
+<h1>Yeni Test Talebi</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-10">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row mb-3">
+                <label asp-for="Name" class="col-form-label col-sm-3"></label>
+                <div class="col-sm-9">
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="Description" class="col-form-label col-sm-3"></label>
+                <div class="col-sm-9">
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="ImportanceLevel" class="col-form-label col-sm-3"></label>
+                <div class="col-sm-9">
+                    <select asp-for="ImportanceLevel" class="form-select" asp-items="Html.GetEnumSelectList(typeof(ImportanceLevels))">
+                        <option value=""> Seçiniz</option>
+                    </select>
+                    <span asp-validation-for="ImportanceLevel" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="TestType" class="col-form-label col-sm-3"></label>
+                <div class="col-sm-9">
+                    <select asp-for="TestType" class="form-select" asp-items="@Html.GetEnumSelectList(typeof(TestTypes)).Select(opt=>(opt, value: (TestTypes)Int32.Parse( opt.Value ) )).Where(x=>x.value!=0).Select(t=>t.opt)">
+                        <option value=""> Seçiniz</option>
+                    </select>
+                    <span asp-validation-for="TestType" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="PreRequestId" class="col-form-label col-sm-3"></label>
+                <div class="col-sm-9">
+                    <select asp-for="PreRequestId" class="form-select" asp-items="@(new SelectList(Model.PreRequests, "Id", "TestIdentifier"))">
+                        <option value=""> Seçiniz</option>
+                    </select>
+                    <span asp-validation-for="TestType" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="FormFile" class="form-label">Varsa test için yardımcı olabilecek doküman ekleyiniz!</label>
+                <input asp-for="FormFile" class="form-control" type="file">
+            </div>
+            <div>
+                <input type="submit" value="Oluştur" class="btn btn-primary" />
+                <partial name="_BackToListButton" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

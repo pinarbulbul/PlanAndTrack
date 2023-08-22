@@ -1,0 +1,9 @@
+﻿@model string
+
+@{
+    var index = Model?.IndexOf('@');
+    var createdBy = Model?.Substring(0, (int)index);
+}
+<p data-bs-toggle="tooltip" data-bs-title="@Model">
+    @Html.DisplayFor(model => createdBy)
+</p>

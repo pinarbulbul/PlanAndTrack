@@ -1,0 +1,13 @@
+﻿@model string
+
+@if (Model?.Length > 50)
+{
+    <p data-bs-toggle="tooltip" data-bs-title="@Model">
+        @Model?.Substring(0, 50) ...
+    </p>
+}
+else
+{
+    @Html.DisplayFor(modelItem => Model)
+}
+

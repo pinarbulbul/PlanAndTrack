@@ -1,0 +1,59 @@
+﻿@model IEnumerable<PlanAndTrack.Application.Models.Plan.PlanHeaderVm>
+
+@{
+    ViewData["Title"] = "Liste";
+}
+
+<h1>Planlar</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Yeni Plan Oluştur</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PeriodStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlannedPeriodEnd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActualPeriodEnd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td style="min-width:100px">
+                    @Html.ActionLink("Detay", "Detail", new { id = item.Id }, new { @class = "btn btn-sm btn-dark" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.Partial("_ToShortDateOnlyDisplay", @item.PeriodStart)
+                </td>
+                <td>
+                    @Html.Partial("_ToShortDateOnlyDisplay", @item.PlannedPeriodEnd)
+                </td>
+                <td>
+                    @Html.Partial("_ToShortDateOnlyDisplay", @item.ActualPeriodEnd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

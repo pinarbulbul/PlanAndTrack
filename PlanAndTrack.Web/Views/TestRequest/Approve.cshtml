@@ -1,0 +1,80 @@
+﻿@model PlanAndTrack.Application.Models.TestRequest.ApproveVm
+
+@{
+    ViewData["Title"] = "Onay/Red";
+}
+
+
+<div>
+    <hr />
+    <dl class="row">
+
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.ImportanceLevel)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.ImportanceLevel)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.TestType)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.TestType)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.PreRequestTestIdentifier)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.PreRequestTestIdentifier) 
+        </dd>
+        <dt class="col-sm-3">
+
+        </dt>
+        <dd class="col-sm-9">
+            @if (Model.HasFile)
+            {
+                @Html.ActionLink("Ekli Test Dokümanını İndir", "DownloadFile", new { id = Model.Id }, new { @class = "btn btn-outline-secondary" })
+            }
+        </dd>
+    </dl>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-10">
+        <form method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="row mb-7">
+                <label asp-for="TimeRequired" class="col-form-label col-sm-3"></label>
+                <div class="col-sm-5">
+                    <input asp-for="TimeRequired" class="form-control" />
+                    <span asp-validation-for="TimeRequired" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div>
+                <input type="submit" value="Onay" asp-action="Approve" class="btn btn-success" />
+                <input type="submit" value="Reddet" asp-action="Reject" class="btn btn-danger" />
+                <partial name="_BackToListButton" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

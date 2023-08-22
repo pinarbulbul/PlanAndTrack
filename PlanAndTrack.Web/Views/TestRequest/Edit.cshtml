@@ -1,0 +1,102 @@
+﻿@using PlanAndTrack.Domain.Enums
+@model PlanAndTrack.Application.Models.TestRequest.UpdateVm
+
+@{
+    ViewData["Title"] = "Güncelle";
+}
+
+<h1>Test Talebi Güncelleme </h1>
+<hr />
+
+@if (Model.Status == TestRequestStatus.APPROVED)
+    {
+    <h5>
+        Bu talep yönetici tarafında değerlendirilmiş ve onaylanmıştır. Eğer Güncelleme yaparsanız,
+        yöneticinin bir önceki değerlendirmesi silinecektir.
+        Yöneticinin talebi tekrar değerlendirmesi ve onaylaması gerekecektir.
+    </h5>
+}
+
+@if (Model.Status == TestRequestStatus.REJECTED)
+    {
+    <h5>
+        Bu talep yönetici tarafında değerlendirilmiş ve reddedilmiştir. Eğer Güncelleme yaparsanız,
+        yöneticinin talebi tekrar değerlendirmesi gerekecektir.
+    </h5>
+}
+
+<hr />
+
+<h4>Talep ID: @Model.Id</h4>
+
+
+
+<div class="row">
+    <div class="col-md-10">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row mb-3">
+                <label asp-for="Name" class="col-form-label col-sm-3"></label>
+                <div class="col-sm-9">
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="Description" class="col-form-label col-sm-3"></label>
+                <div class="col-sm-9">
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="ImportanceLevel" class="col-form-label col-sm-3"></label>
+                <div class="col-sm-9">
+                    <select asp-for="ImportanceLevel" class="form-select" asp-items="Html.GetEnumSelectList(typeof(ImportanceLevels))">
+                        <option value=""> Seçiniz</option>
+                    </select>
+                    <span asp-validation-for="ImportanceLevel" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="TestType" class="col-form-label col-sm-3"></label>
+                <div class="col-sm-9">
+                    <select asp-for="TestType" class="form-select" asp-items="@Html.GetEnumSelectList(typeof(TestTypes)).Select(opt=>(opt, value: (TestTypes)Int32.Parse( opt.Value ) )).Where(x=>x.value!=0).Select(t=>t.opt)">
+                        <option value=""> Seçiniz</option>
+                    </select>
+                    <span asp-validation-for="TestType" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="PreRequestId" class="col-form-label col-sm-3"></label>
+                <div class="col-sm-9">
+                    <select asp-for="PreRequestId" class="form-select" asp-items="@(new SelectList(Model.PreRequests, "Id", "TestIdentifier"))">
+                        <option value=""> Seçiniz</option>
+                    </select>
+                    <span asp-validation-for="TestType" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3">
+                @if (Model.HasFile)
+                {
+                    @Html.ActionLink("Ekli Test Dokümanını İndir", "DownloadFile", new { id = Model.Id }, new { @class = "btn btn-outline-secondary" })
+                }
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="FormFile" class="form-label">Varsa test için yardımcı olabilecek doküman ekleyiniz!</label>
+                <input asp-for="FormFile" class="form-control" type="file">
+            </div>
+            <div>
+                <input type="submit" value="Değişiklikleri Kaydet" class="btn btn-primary" />
+                <partial name="_BackToListButton" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

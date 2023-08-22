@@ -1,0 +1,9 @@
+﻿@model DateTime?
+
+
+@{
+    var dateString = Model?.ToShortDateString();
+}
+
+@Html.DisplayFor(model => dateString)
+                

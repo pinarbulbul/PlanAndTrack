@@ -1,0 +1,91 @@
+﻿@using PlanAndTrack.Domain.Enums
+@model PlanAndTrack.Application.Models.Plan.CreateVm
+
+@{
+    ViewData["Title"] = "Yeni Plan";
+    ViewData["CanBeCreated"]= Model.CanBeCreated;
+}
+
+<h1>Yeni Planlama</h1>
+
+<hr />
+<form method="post">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="card" style="position:fixed; width:300px">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="card-body mb-3">
+                    <label> Planlama Dönemi için uygun olan kaynakları girip Plan Oluştur'a basınız!</label>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Resources.FirstOrDefault().TestType)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Resources.FirstOrDefault().Available)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Resources?.Count(); i++)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model.Resources[i].TestType)
+                                        <input asp-for="Resources[i].TestType" type="hidden" />
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-9">
+                                            <input asp-for="Resources[i].Available" class="form-control" />
+                                            <span asp-validation-for="Resources[i].Available" class="text-danger"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div>
+                    <input type="submit" value="Plan Oluştur" asp-action="CreatePlanTasks" class="btn btn-success" />
+                    <partial name="_BackToListButton" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="card">
+                @for (int i = 0; i < Model.PlanTypes?.Count(); i++)
+                {
+                    <div class="card-body">
+                        <input type="hidden" asp-for="PlanTypes[i].AppliedType" />
+                        <input type="hidden" asp-for="PlanTypes[i].Performance.TotalNumber" />
+                        <input type="hidden" asp-for="PlanTypes[i].Performance.PromisedNumber" />
+                        <input type="hidden" asp-for="PlanTypes[i].Performance.TotalImportanceLevel" />
+                        <input type="hidden" asp-for="PlanTypes[i].Performance.PromisedImportanceLevel" />
+                        <input type="hidden" asp-for="PlanTypes[i].Performance.PromisedTime" />
+
+                        @for (int j = 0; j < Model.PlanTypes[i].TestRequests?.Count(); j++)
+                        {
+                            <input type="hidden" asp-for="PlanTypes[i].TestRequests[j].Id" />
+                            <input type="hidden" asp-for="PlanTypes[i].TestRequests[j].TestType" />
+                            <input type="hidden" asp-for="PlanTypes[i].TestRequests[j].ImportanceLevel" />
+                            <input type="hidden" asp-for="PlanTypes[i].TestRequests[j].LeftTimeRequired" />
+                        }
+                        @Html.Partial("_PlanTypes", Model.PlanTypes[i], this.ViewData )
+
+                    </div>
+                    <hr />
+                }
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

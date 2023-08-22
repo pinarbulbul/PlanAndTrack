@@ -1,0 +1,55 @@
+﻿@model PlanAndTrack.Application.Models.Plan.CurrentPlanVm
+
+@{
+    ViewData["Title"] = "Mevcut Plan";
+}
+
+<h1>Mevcut Plan</h1>
+
+@if (Model.InfoMessage?.Length > 0)
+{
+    <div class="text-center">
+        <p>
+            @Model.InfoMessage
+        </p>
+    </div>
+}
+else
+{
+    <div class="row">
+        <dl class="col-sm-3">
+            <dt class="col-sm-7">
+                @Html.DisplayNameFor(model => model.PeriodStart)
+            </dt>
+            <dd class="col-sm-5">
+                @Html.Partial("_ToShortDateOnlyDisplay", @Model.PeriodStart)
+            </dd>
+        </dl>
+        <dl class="col-sm-3">
+            <dt class="col-sm-7">
+                @Html.DisplayNameFor(model => model.PlannedPeriodEnd)
+            </dt>
+            <dd class="col-sm-5">
+                @Html.Partial("_ToShortDateOnlyDisplay", @Model.PlannedPeriodEnd)
+            </dd>
+        </dl>
+        <dl class="col-sm-6">
+            @if (Model.CanFinish)
+            {
+                <form asp-action="Finish" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <div style="float:right">
+                        <input type="submit" value="Planı Sonlandır" class="btn btn-danger btn-lg" />
+                    </div>
+                </form>
+            }
+        </dl>
+    </div>
+
+    @if (Model.TestRequests?.Count > 0)
+    {
+        @Html.Partial("_TestRequests", Model.TestRequests)
+    }
+}
+
+

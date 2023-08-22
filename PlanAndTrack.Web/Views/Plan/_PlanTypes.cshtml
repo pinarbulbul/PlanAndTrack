@@ -1,0 +1,116 @@
+﻿@model PlanAndTrack.Application.Models.Plan.PlanTypesVm
+
+
+<div class="bg-secondary text-light  p-3">
+    <h4>@Html.DisplayFor(model => model.AppliedType) </h4>
+</div>
+
+
+<div class="container text-center">
+    <div class="row g-3 mb-3 mt-0">
+        <div class="col-4">
+            <div class="p-4 border bg-light">
+                <div class="row">
+                    <span class="badge bg-secondary">Talep Sayısı</span>
+                    <div style="font-size: 2em;" data-bs-toggle="tooltip" data-bs-html="true"
+                         data-bs-title="@Html.DisplayNameFor(model => model.Performance.NumberPercentage)</br> Planlanan/Toplam: @Html.DisplayFor(model => model.Performance.PromisedNumber)/@Html.DisplayFor(model => model.Performance.TotalNumber)">
+                        @{
+                            var numberPercentageClass = "bg-danger";
+                            if (Model.Performance?.NumberPercentage > 70)
+                            {
+                                numberPercentageClass = "bg-success";
+                            }
+                            else if (Model.Performance?.NumberPercentage > 50)
+                            {
+                                numberPercentageClass = "bg-warning";
+                            }
+                        }
+                        <span class="badge rounded-pill @numberPercentageClass">%@Model.Performance?.NumberPercentage</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="p-4 border bg-light">
+
+                <div class="row">
+                    <span class="badge bg-secondary">Önem Derecesi</span>
+                    <div style="font-size: 2em;" data-bs-toggle="tooltip" data-bs-html="true"
+                         data-bs-title="@Html.DisplayNameFor(model => model.Performance.ImportanceLevelPercentage)</br> Planlanan/Toplam:@Html.DisplayFor(model => model.Performance.PromisedImportanceLevel)/@Html.DisplayFor(model => model.Performance.TotalImportanceLevel)">
+                        @{
+                            var importancePercentageClass = "bg-danger";
+                            if (Model.Performance?.ImportanceLevelPercentage > 70)
+                            {
+                                importancePercentageClass = "bg-success";
+                            }
+                            else if (Model.Performance?.ImportanceLevelPercentage > 50)
+                            {
+                                importancePercentageClass = "bg-warning";
+                            }
+                        }
+                        <span class="badge rounded-pill @importancePercentageClass">%@Model.Performance?.ImportanceLevelPercentage</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      
+        <div class="col-4">
+            <div class="p-4 mt-2">
+                @if ((bool)ViewData["CanBeCreated"])
+                {
+                    <button type="submit" class="btn btn-primary btn-lg" asp-action="Create" name="submitPlan" value="@Model.AppliedType">
+                        Bu Plan ile Devam Et
+                    </button>
+                }
+                else
+                {
+                    <h3><span class="badge rounded-pill bg-danger">Önemli Not!</span></h3>
+                    <p>
+                        Bitirilmemiş planlama dönemi olduğundan yeni planlama dönemi oluşturamazsınız.
+                    </p>
+                }
+            </div>
+        </div>
+          
+    </div>
+
+    <div class="row g-4 mb-3 mt-0">
+
+        <div class="col-3">
+            <div class="p-3 border bg-light">
+                <div class="row">
+                    <span class="badge bg-secondary">@Html.DisplayNameFor(model => model.Performance.PromisedTime)</span>
+                    <div style="font-size: 2em;">
+                        <span class="badge rounded-pill bg-dark">@Model.Performance?.PromisedTime saat</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        @foreach (var res in Model.Performance.Resources)
+        {
+            <div class="col-3">
+                <div class="p-3 border bg-light">
+                    <div class="row">
+                        <span class="badge bg-secondary">@Html.DisplayFor(model => res.TestType)</span>
+                        <div style="font-size: 2em;">
+                            <span class="badge rounded-pill bg-dark">@res.Promised saat</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+
+</div>
+
+@if (Model.TestRequests?.Count > 0)
+    {
+        @Html.Partial("_TestRequests", Model.TestRequests)
+    }
+
+
