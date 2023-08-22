@@ -5,3 +5,33 @@ A system has been developed that will operate in a transparent way where a test 
 
 
 The article: [PBU_ Conference Article.pdf](https://github.com/pinarbulbul/PlanAndTrack/files/12406133/PBU_.Conference.Article.pdf)
+
+
+# TO START
+
+Commands for DB migrations:
+
+---ApplicationIdentity
+
+dotnet ef migrations add InitialApplicationIdentity -c ApplicationIdentityDbContext --startup-project PlanAndTrack.Web --project PlanAndTrack.Infrastructure -o EntityFrameworkCore/ApplicationIdentity/Migrations
+ 
+dotnet ef database update -c ApplicationIdentityDbContext --startup-project PlanAndTrack.Web --project PlanAndTrack.Infrastructure
+
+ 
+---TestRequestDbContext 
+
+dotnet ef migrations add InitialTestRequest   -c TestRequestDbContext --startup-project PlanAndTrack.Web --project PlanAndTrack.Infrastructure  -o EntityFrameworkCore/TestRequest/Migrations
+
+dotnet ef database update -c TestRequestDbContext --startup-project PlanAndTrack.Web --project PlanAndTrack.Infrastructure 
+
+
+_Localhost Link_: https://localhost:7145/
+
+_Application Users_:
+
+| User                          | Pass          |
+| ------------------------------|:-------------:| 
+| admin@planandtrack.com        | Admin12*      | 
+| manager@planandtrack.com      | Manager12*    | 
+| requester1@planandtrack.com   | Requester12*  | 
+| tester@planandtrack.com       | Tester12*     | 
